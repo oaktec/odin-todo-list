@@ -20,7 +20,8 @@ export default function component() {
 
   const title = document.createElement("input");
   title.type = "text";
-  // title.placeholder = "Title";
+  title.minLength = 3;
+  title.maxLength = 20;
   titleLabel.append(title);
 
   const descriptionLabel = document.createElement("label");
@@ -30,6 +31,7 @@ export default function component() {
 
   const description = document.createElement("input");
   description.type = "text";
+  description.placeholder = "Optional";
   descriptionLabel.append(description);
 
   const categoryLabel = document.createElement("label");
@@ -52,6 +54,7 @@ export default function component() {
 
   const dueDate = document.createElement("input");
   dueDate.type = "datetime-local";
+  dueDate.required = true;
   dueDateLabel.append(dueDate);
 
   const priorityLabel = document.createElement("label");
@@ -87,6 +90,15 @@ export default function component() {
   });
 
   submit.addEventListener("click", () => {
+    if (title.value.length < 3 || title.value.length > 20) {
+      alert("Title must be between 3 and 20 characters");
+      return;
+    }
+    if (dueDate.value === "") {
+      alert("Due date must be set");
+      return;
+    }
+
     const todo = {
       title: title.value,
       description: description.value,
