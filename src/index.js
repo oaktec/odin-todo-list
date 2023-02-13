@@ -4,45 +4,23 @@ import "./style.css";
 import headerComponent from "./components/header";
 import sidebarComponent from "./components/sidebar";
 import mainComponent from "./components/main";
-
-function CreateDOMController() {
-  const header = headerComponent();
-  const sidebar = sidebarComponent();
-  const main = mainComponent();
-
-  document.body.appendChild(header);
-  document.body.appendChild(sidebar);
-  document.body.appendChild(main);
-
-  const drawToDo = (toDo) => {
-    const toDoDiv = document.createElement("div");
-    toDoDiv.classList.add("todo");
-    toDoDiv.innerHTML = `
-    <h3>${toDo.title}</h3>
-    <p>${toDo.description}</p>
-    <p>${toDo.dueDate}</p>
-    <p>${toDo.priority}</p>
-    `;
-    main.append(toDoDiv);
-  };
-
-  return { drawToDo };
-}
+import modalComponent from "./components/modal";
 
 function TodoHandler() {
   const toDos = [];
 
-  function createTodo(title, description, dueDate, priority) {
+  function createTodo(title, description, category, dueDate, priority) {
     return {
       title,
       description,
+      category,
       dueDate,
       priority,
     };
   }
 
-  function addTodo(title, description, dueDate, priority) {
-    toDos.push(createTodo(title, description, dueDate, priority));
+  function addTodo(title, description, category, dueDate, priority) {
+    toDos.push(createTodo(title, description, category, dueDate, priority));
     PubSub.publish("todoAdded", toDos);
   }
 
@@ -54,18 +32,33 @@ function TodoHandler() {
 }
 
 (function () {
-  const DOMController = CreateDOMController();
+  const app = document.createElement("div");
+  app.id = "app";
+  document.body.appendChild(app);
+
+  app.appendChild(headerComponent());
+
+  const content = document.createElement("div");
+  content.id = "content";
+  app.appendChild(content);
+
+  content.appendChild(sidebarComponent());
+  content.appendChild(mainComponent());
+
+  app.appendChild(modalComponent());
 
   const todoHandler = TodoHandler();
   todoHandler.addTodo(
     "Buy milk",
     "Buy milk from the store",
+    "Default",
     "2021-01-01",
     "High"
   );
   todoHandler.addTodo(
     "Buy bread",
     "Buy bread from the store",
+    "Default",
     "2021-01-01",
     "High"
   );
