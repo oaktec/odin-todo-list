@@ -24,6 +24,18 @@ function TodoHandler() {
     PubSub.publish("todoAdded", toDos);
   }
 
+  PubSub.subscribe("todoSubmitted", (msg, data) => {
+    addTodo(
+      data.title,
+      data.description,
+      data.category,
+      data.dueDate,
+      data.priority
+    );
+
+    localStorage.setItem("todos", JSON.stringify(toDos));
+  });
+
   function getTodos() {
     return toDos;
   }
@@ -48,18 +60,15 @@ function TodoHandler() {
   app.appendChild(modalComponent());
 
   const todoHandler = TodoHandler();
-  todoHandler.addTodo(
-    "Buy milk",
-    "Buy milk from the store",
-    "Default",
-    "2021-01-01",
-    "High"
-  );
-  todoHandler.addTodo(
-    "Buy bread",
-    "Buy bread from the store",
-    "Default",
-    "2021-01-01",
-    "High"
-  );
+  const todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+  todos.forEach((todo) => {
+    todoHandler.addTodo(
+      todo.title,
+      todo.description,
+      todo.category,
+      todo.dueDate,
+      todo.priority
+    );
+  });
 })();

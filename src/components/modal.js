@@ -1,3 +1,5 @@
+import PubSub from "pubsub-js";
+
 export default function component() {
   const modal = document.createElement("div");
   modal.id = "modal";
@@ -79,6 +81,24 @@ export default function component() {
   submit.type = "button";
   submit.textContent = "Create";
   form.append(submit);
+
+  cancelButton.addEventListener("click", () => {
+    modal.classList.remove("active");
+  });
+
+  submit.addEventListener("click", () => {
+    const todo = {
+      title: title.value,
+      description: description.value,
+      category: category.value,
+      dueDate: dueDate.value,
+      priority: priority.value,
+    };
+
+    PubSub.publish("todoSubmitted", todo);
+
+    modal.classList.remove("active");
+  });
 
   return modal;
 }
