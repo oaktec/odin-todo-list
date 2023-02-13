@@ -99,7 +99,6 @@ body {
 
 #modal {
   display: none;
-  height: 200px;
   width: 500px;
   position: fixed;
   top: 50%;
@@ -112,4 +111,56 @@ body {
 
 #modal.active {
   display: block;
+}
+
+#modal #cancel-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  position: absolute;
+  color: red;
+  top: 8px;
+  right: 8px;
+}
+
+#modal #modal-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 100%;
+  padding: 32px 8px 16px;
+  border-bottom: gray solid 1px;
+  gap: 8px;
+}
+
+#modal label {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  font-size: 14px;
+  font-weight: 700;
+  gap: 7px;
+}
+
+#modal input,
+select {
+  width: 100%;
+  padding: 8px;
+  border: gray solid 1px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+#modal button {
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
 }
