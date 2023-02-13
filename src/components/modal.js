@@ -65,20 +65,20 @@ export default function component() {
   const priority = document.createElement("select");
   priorityLabel.append(priority);
 
-  const high = document.createElement("option");
-  high.value = "High";
-  high.textContent = "High";
-  priority.append(high);
+  const low = document.createElement("option");
+  low.value = "Low";
+  low.textContent = "Low";
+  priority.append(low);
 
   const medium = document.createElement("option");
   medium.value = "Medium";
   medium.textContent = "Medium";
   priority.append(medium);
 
-  const low = document.createElement("option");
-  low.value = "Low";
-  low.textContent = "Low";
-  priority.append(low);
+  const high = document.createElement("option");
+  high.value = "High";
+  high.textContent = "High";
+  priority.append(high);
 
   const submit = document.createElement("button");
   submit.type = "button";
@@ -106,6 +106,12 @@ export default function component() {
       dueDate: dueDate.value,
       priority: priority.value,
     };
+
+    title.value = "";
+    description.value = "";
+    category.value = "None";
+    dueDate.value = "";
+    priority.value = "Low";
 
     PubSub.publish("todoSubmitted", todo);
 
