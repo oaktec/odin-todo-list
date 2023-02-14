@@ -24,6 +24,11 @@ function TodoHandler() {
     PubSub.publish("todoAdded", toDos);
   }
 
+  function addTodos(todos) {
+    toDos.push(...todos);
+    PubSub.publish("todoAdded", toDos);
+  }
+
   PubSub.subscribe("todoSubmitted", (msg, data) => {
     addTodo(
       data.title,
@@ -32,15 +37,31 @@ function TodoHandler() {
       data.dueDate,
       data.priority
     );
-
-    localStorage.setItem("todos", JSON.stringify(toDos));
   });
 
   function getTodos() {
     return toDos;
   }
 
-  return { addTodo, getTodos };
+  return { addTodo, addTodos, getTodos };
+}
+
+function storageHandler() {
+  const storage = window.localStorage;
+
+  function getTodos() {
+    const todos = JSON.parse(storage.getItem("todos")) || [];
+    return todos;
+  }
+  function setTodos(todos) {
+    storage.setItem("todos", JSON.stringify(todos));
+  }
+
+  PubSub.subscribe("todoAdded", (msg, data) => {
+    setTodos(data);
+  });
+
+  return { getTodos };
 }
 
 (function () {
@@ -59,16 +80,9 @@ function TodoHandler() {
 
   app.appendChild(modalComponent());
 
+  const storage = storageHandler();
   const todoHandler = TodoHandler();
-  const todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-  todos.forEach((todo) => {
-    todoHandler.addTodo(
-      todo.title,
-      todo.description,
-      todo.category,
-      todo.dueDate,
-      todo.priority
-    );
-  });
+  const todos = storage.getTodos();
+  todoHandler.addTodos(todos);
 })();

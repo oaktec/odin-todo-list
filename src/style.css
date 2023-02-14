@@ -93,8 +93,37 @@ body {
 
 #sidebar {
   background-color: lightgray;
-  padding: 8px;
+  padding: 16px 8px;
   width: 300px;
+}
+
+#sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+#sidebar-list > li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px;
+  gap: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#sidebar-list > .category-header {
+  font-size: 24px;
+  font-weight: 700;
+  cursor: default;
+}
+
+#sidebar-list > .add-category {
+  font-size: 16px;
+  font-weight: 700;
+  font-style: italic;
+  color: green;
 }
 
 #modal {

@@ -43,8 +43,8 @@ export default function component() {
   categoryLabel.append(category);
 
   const None = document.createElement("option");
-  None.value = "None";
-  None.textContent = "None";
+  None.value = "General";
+  None.textContent = "General";
   category.append(None);
 
   const dueDateLabel = document.createElement("label");
