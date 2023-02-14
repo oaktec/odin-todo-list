@@ -4,6 +4,18 @@ export default function component() {
   const div = document.createElement("div");
   div.id = "sidebar";
 
+  let sidebarOpen = true;
+
+  PubSub.subscribe("toggleSidebarButtonClicked", () => {
+    if (sidebarOpen) {
+      div.classList.add("sidebar-closed");
+      sidebarOpen = false;
+    } else {
+      div.classList.remove("sidebar-closed");
+      sidebarOpen = true;
+    }
+  });
+
   const listDiv = document.createElement("ul");
   listDiv.id = "sidebar-list";
   div.append(listDiv);

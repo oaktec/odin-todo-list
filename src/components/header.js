@@ -13,10 +13,18 @@ export default function component() {
   toggleSidebarButton.innerHTML = "<span class='material-icons'>menu</span>";
   headerLeft.append(toggleSidebarButton);
 
+  toggleSidebarButton.addEventListener("click", () => {
+    PubSub.publish("toggleSidebarButtonClicked", null);
+  });
+
   const homeButton = document.createElement("button");
   homeButton.classList.add("home-button");
   homeButton.innerHTML = "<span class='material-icons'>home</span>";
   headerLeft.append(homeButton);
+
+  homeButton.addEventListener("click", () => {
+    PubSub.publish("categorySelected", "All");
+  });
 
   const headerRight = document.createElement("div");
   headerRight.classList.add("header-right");

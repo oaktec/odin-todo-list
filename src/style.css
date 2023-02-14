@@ -97,6 +97,12 @@ body {
   width: 300px;
 }
 
+#sidebar.sidebar-closed {
+  display: none;
+  width: 0px;
+  padding: 0px;
+}
+
 #sidebar-list {
   display: flex;
   flex-direction: column;
