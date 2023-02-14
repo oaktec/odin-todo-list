@@ -164,7 +164,7 @@ body {
 
 #main > .todo {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: auto 2fr 1fr 1fr auto;
   width: min(100%, 1000px);
   align-items: center;
   justify-items: center;
@@ -193,6 +193,7 @@ body {
 
 #main .todo-circle {
   cursor: pointer;
+  margin: 0px 8px;
 }
 
 #main .todo-circle:hover {
