@@ -13,10 +13,19 @@ export default function component() {
 
       const circle = document.createElement("span");
       circle.classList.add("todo-circle");
-      circle.innerHTML =
-        "<span class='material-icons'>radio_button_unchecked</span>";
+      if (!data[i].completed) {
+        circle.innerHTML =
+          "<span class='material-icons'>radio_button_unchecked</span>";
+      } else {
+        circle.innerHTML =
+          "<span class='material-icons'>radio_button_checked</span>";
+      }
       circle.classList.add(data[i].priority.toLowerCase());
       todo.append(circle);
+
+      circle.addEventListener("click", () => {
+        PubSub.publish("todoCompleted", data[i]);
+      });
 
       const title = document.createElement("span");
       title.classList.add("todo-title");

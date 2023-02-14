@@ -19,6 +19,7 @@ function TodoHandler() {
       category,
       dueDate,
       priority,
+      completed: false,
     };
   }
 
@@ -55,7 +56,18 @@ function TodoHandler() {
     addCategory(data);
   });
 
+  PubSub.subscribe("todoCompleted", (msg, data) => {
+    const index = toDos.indexOf(data);
+    toDos[index].completed = !toDos[index].completed;
+    PubSub.publish("todoAdded", toDos);
+  });
+
   PubSub.subscribe("todoAdded", () => {
+    toDos.sort((a, b) => {
+      const dateA = new Date(a.dueDate);
+      const dateB = new Date(b.dueDate);
+      return dateA - dateB;
+    });
     PubSub.publish("categorySelected", filter);
   });
 
