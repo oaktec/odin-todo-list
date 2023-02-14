@@ -8,6 +8,7 @@ import modalComponent from "./components/modal";
 
 function TodoHandler() {
   const toDos = [];
+  let categories = [];
 
   function createTodo(title, description, category, dueDate, priority) {
     return {
@@ -29,6 +30,21 @@ function TodoHandler() {
     PubSub.publish("todoAdded", toDos);
   }
 
+  function addCategory(category) {
+    if (!categories.includes(category)) {
+      categories.push(category);
+      PubSub.publish("categoriesChanged", categories);
+    }
+  }
+  function setCategories(newCats) {
+    categories = newCats;
+    PubSub.publish("categoriesChanged", categories);
+  }
+
+  PubSub.subscribe("categoryAdded", (msg, data) => {
+    addCategory(data);
+  });
+
   PubSub.subscribe("todoSubmitted", (msg, data) => {
     addTodo(
       data.title,
@@ -43,7 +59,7 @@ function TodoHandler() {
     return toDos;
   }
 
-  return { addTodo, addTodos, getTodos };
+  return { addTodo, addTodos, setCategories, getTodos };
 }
 
 function storageHandler() {
@@ -57,11 +73,22 @@ function storageHandler() {
     storage.setItem("todos", JSON.stringify(todos));
   }
 
+  function getCategories() {
+    const categories = JSON.parse(storage.getItem("categories")) || [];
+    return categories;
+  }
+  function setCategories(categories) {
+    storage.setItem("categories", JSON.stringify(categories));
+  }
+
   PubSub.subscribe("todoAdded", (msg, data) => {
     setTodos(data);
   });
+  PubSub.subscribe("categoriesChanged", (msg, data) => {
+    setCategories(data);
+  });
 
-  return { getTodos };
+  return { getTodos, getCategories };
 }
 
 (function () {
@@ -84,5 +111,6 @@ function storageHandler() {
   const todoHandler = TodoHandler();
 
   const todos = storage.getTodos();
+  todoHandler.setCategories(storage.getCategories());
   todoHandler.addTodos(todos);
 })();

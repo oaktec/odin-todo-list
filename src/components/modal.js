@@ -42,10 +42,18 @@ export default function component() {
   const category = document.createElement("select");
   categoryLabel.append(category);
 
-  const None = document.createElement("option");
-  None.value = "General";
-  None.textContent = "General";
-  category.append(None);
+  function generateCategoryOptions(categories) {
+    categories.forEach((cat) => {
+      const option = document.createElement("option");
+      option.value = cat;
+      option.textContent = cat;
+      category.append(option);
+    });
+  }
+  generateCategoryOptions(["General"]);
+  PubSub.subscribe("categoriesChanged", (_, data) => {
+    generateCategoryOptions(data);
+  });
 
   const dueDateLabel = document.createElement("label");
   dueDateLabel.for = "dueDate";
