@@ -126,6 +126,57 @@ body {
   color: green;
 }
 
+#main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 16px 32px;
+  gap: 16px;
+}
+
+#main > .todo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  padding: 8px;
+  gap: 8px;
+  border: gray solid 1px;
+  border-radius: 4px;
+  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+#main .todo-title {
+  font-size: 16px;
+  font-weight: 700;
+  justify-self: start;
+}
+
+#main .todo-category {
+  font-size: 14px;
+  font-style: italic;
+}
+
+#main .todo-circle {
+  cursor: pointer;
+}
+
+#main .todo-circle:hover {
+  transform: scale(1.1);
+}
+
+#main .low {
+  color: green;
+}
+
+#main .medium {
+  color: orange;
+}
+
+#main .high {
+  color: red;
+}
+
 #modal {
   display: none;
   width: 500px;

@@ -1,4 +1,5 @@
 import PubSub from "pubsub-js";
+import { format } from "date-fns";
 
 export default function component() {
   const div = document.createElement("div");
@@ -10,30 +11,28 @@ export default function component() {
       const todo = document.createElement("div");
       todo.classList.add("todo");
 
-      const title = document.createElement("h3");
+      const circle = document.createElement("span");
+      circle.classList.add("todo-circle");
+      circle.innerHTML =
+        "<span class='material-icons'>radio_button_unchecked</span>";
+      circle.classList.add(data[i].priority.toLowerCase());
+      todo.append(circle);
+
+      const title = document.createElement("span");
       title.classList.add("todo-title");
       title.textContent = data[i].title;
       todo.append(title);
 
-      const description = document.createElement("p");
-      description.classList.add("todo-description");
-      description.textContent = data[i].description;
-      todo.append(description);
+      const dueDate = document.createElement("span");
+      dueDate.classList.add("todo-due-date");
+      const date = new Date(data[i].dueDate);
+      dueDate.textContent = format(date, "dd/MM/yyyy HH:mm");
+      todo.append(dueDate);
 
       const category = document.createElement("span");
       category.classList.add("todo-category");
       category.textContent = data[i].category;
       todo.append(category);
-
-      const dueDate = document.createElement("span");
-      dueDate.classList.add("todo-due-date");
-      dueDate.textContent = data[i].dueDate;
-      todo.append(dueDate);
-
-      const priority = document.createElement("span");
-      priority.classList.add("todo-priority");
-      priority.textContent = data[i].priority;
-      todo.append(priority);
 
       const deleteButton = document.createElement("span");
       deleteButton.classList.add("todo-delete");
