@@ -1,5 +1,6 @@
 import PubSub from "pubsub-js";
 import "./style.css";
+import { format } from "date-fns";
 
 import headerComponent from "./components/header";
 import sidebarComponent from "./components/sidebar";
@@ -9,6 +10,7 @@ import modalComponent from "./components/modal";
 function TodoHandler() {
   const toDos = [];
   let categories = [];
+  let filter = "All";
 
   function createTodo(title, description, category, dueDate, priority) {
     return {
@@ -43,6 +45,25 @@ function TodoHandler() {
 
   PubSub.subscribe("categoryAdded", (msg, data) => {
     addCategory(data);
+  });
+
+  PubSub.subscribe("todoAdded", () => {
+    PubSub.publish("categorySelected", filter);
+  });
+
+  PubSub.subscribe("categorySelected", (_, data) => {
+    filter = data;
+    let filtered;
+    if (data === "Today") {
+      filtered = toDos.filter(
+        (x) => x.dueDate.slice(0, 10) === format(new Date(), "yyyy-MM-dd")
+      );
+    } else if (data === "All") {
+      filtered = toDos;
+    } else {
+      filtered = toDos.filter((x) => x.category === data);
+    }
+    PubSub.publish("todosFiltered", filtered);
   });
 
   PubSub.subscribe("todoSubmitted", (msg, data) => {

@@ -10,17 +10,24 @@ export default function component() {
 
   function generateCategories(data) {
     listDiv.innerHTML = "";
-    const general = document.createElement("li");
-    general.classList.add("category");
 
-    const generalIcon = document.createElement("span");
-    generalIcon.classList.add("material-icons");
-    generalIcon.textContent = "list";
-    general.append(generalIcon);
+    const all = document.createElement("li");
+    all.classList.add("category");
 
-    const generalSpan = document.createElement("span");
-    generalSpan.textContent = "General";
-    general.append(generalSpan);
+    const allIcon = document.createElement("span");
+    allIcon.classList.add("material-icons");
+    allIcon.textContent = "home";
+    all.append(allIcon);
+
+    const allSpan = document.createElement("span");
+    allSpan.textContent = "All";
+    all.append(allSpan);
+
+    all.addEventListener("click", () => {
+      PubSub.publish("categorySelected", "All");
+    });
+
+    listDiv.append(all);
 
     const today = document.createElement("li");
     today.classList.add("category");
@@ -34,13 +41,34 @@ export default function component() {
     todaySpan.textContent = "Today";
     today.append(todaySpan);
 
-    listDiv.append(general);
+    today.addEventListener("click", () => {
+      PubSub.publish("categorySelected", "Today");
+    });
+
     listDiv.append(today);
 
     const categories = document.createElement("li");
     categories.classList.add("category-header");
     categories.textContent = "Categories";
     listDiv.append(categories);
+
+    const general = document.createElement("li");
+    general.classList.add("category");
+
+    const generalIcon = document.createElement("span");
+    generalIcon.classList.add("material-icons");
+    generalIcon.textContent = "list";
+    general.append(generalIcon);
+
+    const generalSpan = document.createElement("span");
+    generalSpan.textContent = "General";
+    general.append(generalSpan);
+
+    general.addEventListener("click", () => {
+      PubSub.publish("categorySelected", "General");
+    });
+
+    listDiv.append(general);
 
     data.forEach((category) => {
       if (category === "General" || category === "Today") return;
@@ -54,6 +82,10 @@ export default function component() {
       categorySpan.textContent = category;
       categoryLi.append(categorySpan);
       listDiv.append(categoryLi);
+
+      categoryLi.addEventListener("click", () => {
+        PubSub.publish("categorySelected", category);
+      });
     });
 
     const addCategory = document.createElement("li");
