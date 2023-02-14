@@ -181,6 +181,11 @@ body {
   justify-self: start;
 }
 
+#main .completed {
+  text-decoration: line-through;
+  color: darkgray;
+}
+
 #main .todo-category {
   font-size: 14px;
   font-style: italic;

@@ -29,17 +29,26 @@ export default function component() {
 
       const title = document.createElement("span");
       title.classList.add("todo-title");
+      if (data[i].completed) {
+        title.classList.add("completed");
+      }
       title.textContent = data[i].title;
       todo.append(title);
 
       const dueDate = document.createElement("span");
       dueDate.classList.add("todo-due-date");
+      if (data[i].completed) {
+        dueDate.classList.add("completed");
+      }
       const date = new Date(data[i].dueDate);
       dueDate.textContent = format(date, "dd/MM/yyyy HH:mm");
       todo.append(dueDate);
 
       const category = document.createElement("span");
       category.classList.add("todo-category");
+      if (data[i].completed) {
+        category.classList.add("completed");
+      }
       category.textContent = data[i].category;
       todo.append(category);
 
