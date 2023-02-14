@@ -128,6 +128,17 @@ body {
   color: black;
 }
 
+.category > .category-delete {
+  justify-self: right;
+  margin-left: auto;
+}
+.category > .category-delete:hover {
+  background-color: transparent;
+  color: red;
+
+  text-shadow: 1px 1px 1px black;
+}
+
 #sidebar-list > .add-category {
   font-size: 16px;
   font-weight: 700;

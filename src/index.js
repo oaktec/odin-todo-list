@@ -8,7 +8,7 @@ import mainComponent from "./components/main";
 import modalComponent from "./components/modal";
 
 function TodoHandler() {
-  const toDos = [];
+  let toDos = [];
   let categories = [];
   let filter = "All";
 
@@ -42,6 +42,14 @@ function TodoHandler() {
     categories = newCats;
     PubSub.publish("categoriesChanged", categories);
   }
+
+  PubSub.subscribe("categoryDelete", (msg, data) => {
+    const filtered = toDos.filter((x) => x.category !== data);
+    categories = categories.filter((x) => x !== data);
+    toDos = filtered;
+    PubSub.publish("todoAdded", toDos);
+    PubSub.publish("categoriesChanged", categories);
+  });
 
   PubSub.subscribe("categoryAdded", (msg, data) => {
     addCategory(data);

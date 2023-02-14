@@ -81,6 +81,14 @@ export default function component() {
       const categorySpan = document.createElement("span");
       categorySpan.textContent = category;
       categoryLi.append(categorySpan);
+      const categoryDelete = document.createElement("span");
+      categoryDelete.classList.add("material-icons");
+      categoryDelete.classList.add("category-delete");
+      categoryDelete.textContent = "delete";
+      categoryLi.append(categoryDelete);
+      categoryDelete.addEventListener("click", () => {
+        PubSub.publish("categoryDelete", category);
+      });
       listDiv.append(categoryLi);
 
       categoryLi.addEventListener("click", () => {
