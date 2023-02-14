@@ -99,7 +99,7 @@ export default function component() {
       addCategoryIcon.textContent = "add";
       addCategory.append(addCategoryIcon);
       const addCategorySpan = document.createElement("span");
-      addCategorySpan.textContent = "Add Category";
+      addCategorySpan.textContent = "New Category";
       addCategory.append(addCategorySpan);
       addCategory.addEventListener("click", generateCategoryInput, {
         once: true,

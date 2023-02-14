@@ -113,10 +113,19 @@ body {
   cursor: pointer;
 }
 
+#sidebar-list > li:hover {
+  background-color: rgb(219, 76, 63);
+  color: white;
+}
+
 #sidebar-list > .category-header {
   font-size: 24px;
   font-weight: 700;
   cursor: default;
+}
+#sidebar-list > .category-header:hover {
+  background-color: transparent;
+  color: black;
 }
 
 #sidebar-list > .add-category {
@@ -124,6 +133,13 @@ body {
   font-weight: 700;
   font-style: italic;
   color: green;
+}
+
+#sidebar-list > .add-category:hover {
+  background-color: transparent;
+  color: green;
+
+  text-shadow: 0px 0px 1px green;
 }
 
 #main {
