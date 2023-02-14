@@ -97,7 +97,35 @@ export default function component() {
     modal.classList.remove("active");
   });
 
-  submit.addEventListener("click", () => {
+  PubSub.subscribe("addTodoButtonClicked", () => {
+    title.value = "";
+    description.value = "";
+    category.value = "General";
+    dueDate.value = "";
+    priority.value = "Low";
+
+    submit.textContent = "Create";
+    submit.removeEventListener("click", submitEditTodo);
+    submit.addEventListener("click", submitNewTodo);
+
+    modal.classList.add("active");
+  });
+
+  PubSub.subscribe("todoEditClicked", (_, data) => {
+    title.value = data.title;
+    description.value = data.description;
+    category.value = data.category;
+    dueDate.value = data.dueDate;
+    priority.value = data.priority;
+
+    submit.textContent = "Save";
+    submit.removeEventListener("click", submitNewTodo);
+    submit.addEventListener("click", submitEditTodo);
+
+    modal.classList.add("active");
+  });
+
+  function submitEditTodo() {
     if (title.value.length < 3 || title.value.length > 20) {
       alert("Title must be between 3 and 20 characters");
       return;
@@ -115,16 +143,35 @@ export default function component() {
       priority: priority.value,
     };
 
-    title.value = "";
-    description.value = "";
-    category.value = "None";
-    dueDate.value = "";
-    priority.value = "Low";
+    PubSub.publish("todoEdited", todo);
+
+    modal.classList.remove("active");
+  }
+
+  function submitNewTodo() {
+    if (title.value.length < 3 || title.value.length > 20) {
+      alert("Title must be between 3 and 20 characters");
+      return;
+    }
+    if (dueDate.value === "") {
+      alert("Due date must be set");
+      return;
+    }
+
+    const todo = {
+      title: title.value,
+      description: description.value,
+      category: category.value,
+      dueDate: dueDate.value,
+      priority: priority.value,
+    };
 
     PubSub.publish("todoSubmitted", todo);
 
     modal.classList.remove("active");
-  });
+  }
+
+  submit.addEventListener("click", submitNewTodo);
 
   return modal;
 }

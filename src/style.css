@@ -164,7 +164,7 @@ body {
 
 #main > .todo {
   display: grid;
-  grid-template-columns: auto 2fr 1fr 1fr auto;
+  grid-template-columns: auto 2fr 1fr 1fr auto auto;
   width: min(100%, 1000px);
   align-items: center;
   justify-items: center;
@@ -197,6 +197,15 @@ body {
 }
 
 #main .todo-circle:hover {
+  transform: scale(1.1);
+}
+
+#main .todo-delete {
+  cursor: pointer;
+  font-size: 24px;
+}
+#main .todo-delete:hover {
+  color: red;
   transform: scale(1.1);
 }
 

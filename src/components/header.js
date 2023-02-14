@@ -1,3 +1,5 @@
+import PubSub from "pubsub-js";
+
 export default function component() {
   const div = document.createElement("div");
   div.id = "header";
@@ -26,8 +28,7 @@ export default function component() {
   headerRight.append(addTodoButton);
 
   addTodoButton.addEventListener("click", () => {
-    const modal = document.getElementById("modal");
-    modal.classList.add("active");
+    PubSub.publish("addTodoButtonClicked", null);
   });
 
   return div;

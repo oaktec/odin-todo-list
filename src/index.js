@@ -11,6 +11,7 @@ function TodoHandler() {
   let toDos = [];
   let categories = [];
   let filter = "All";
+  let editedTodo = null;
 
   function createTodo(title, description, category, dueDate, priority) {
     return {
@@ -59,6 +60,23 @@ function TodoHandler() {
   PubSub.subscribe("todoCompleted", (msg, data) => {
     const index = toDos.indexOf(data);
     toDos[index].completed = !toDos[index].completed;
+    PubSub.publish("todoAdded", toDos);
+  });
+
+  PubSub.subscribe("todoEditClicked", (msg, data) => {
+    editedTodo = data;
+  });
+
+  PubSub.subscribe("todoEdited", (msg, data) => {
+    const index = toDos.indexOf(editedTodo);
+    toDos[index] = data;
+    toDos[index].completed = editedTodo.completed;
+    PubSub.publish("todoAdded", toDos);
+  });
+
+  PubSub.subscribe("todoDeleted", (msg, data) => {
+    const index = toDos.indexOf(data);
+    toDos.splice(index, 1);
     PubSub.publish("todoAdded", toDos);
   });
 

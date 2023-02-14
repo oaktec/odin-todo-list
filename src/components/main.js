@@ -13,12 +13,11 @@ export default function component() {
 
       const circle = document.createElement("span");
       circle.classList.add("todo-circle");
+      circle.classList.add("material-icons");
       if (!data[i].completed) {
-        circle.innerHTML =
-          "<span class='material-icons'>radio_button_unchecked</span>";
+        circle.textContent = "radio_button_unchecked";
       } else {
-        circle.innerHTML =
-          "<span class='material-icons'>radio_button_checked</span>";
+        circle.textContent = "radio_button_checked";
       }
       circle.classList.add(data[i].priority.toLowerCase());
       todo.append(circle);
@@ -52,10 +51,25 @@ export default function component() {
       category.textContent = data[i].category;
       todo.append(category);
 
+      const editButton = document.createElement("span");
+      editButton.classList.add("todo-edit");
+      editButton.classList.add("material-icons");
+      editButton.textContent = "edit";
+      todo.append(editButton);
+
+      editButton.addEventListener("click", () => {
+        PubSub.publish("todoEditClicked", data[i]);
+      });
+
       const deleteButton = document.createElement("span");
       deleteButton.classList.add("todo-delete");
-      deleteButton.innerHTML = "<span class='material-icons'>delete</span>";
+      deleteButton.classList.add("material-icons");
+      deleteButton.textContent = "delete";
       todo.append(deleteButton);
+
+      deleteButton.addEventListener("click", () => {
+        PubSub.publish("todoDeleted", data[i]);
+      });
 
       div.append(todo);
     }
